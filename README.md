@@ -78,17 +78,36 @@ Le pipeline suit six grandes étapes :
 
 ```
 olist-delivery-analysis/
-├── notebooks/          # Notebook Jupyter complet : chargement, nettoyage, EDA, KPI, export
-├── data/                # Données sources et fichiers exportés
+├── olist_delivery_analysis.ipynb   # Notebook Jupyter complet : chargement, nettoyage, EDA, KPI, export
+├── data/                            # Données sources brutes (8 fichiers CSV Olist/Kaggle)
+│   ├── olist_orders_dataset.csv
+│   ├── olist_order_items_dataset.csv
+│   ├── olist_geolocation_dataset.csv
+│   ├── olist_products_dataset.csv
+│   ├── olist_customers_dataset.csv
+│   ├── olist_sellers_dataset.csv
+│   ├── olist_order_reviews_dataset.csv
+│   └── olist_product_category_name_translation.csv
+├── output_csv/                      # Schéma en étoile exporté (sortie du notebook)
 │   ├── fact_orders.csv
 │   ├── dim_customers.csv
 │   ├── dim_products.csv
 │   ├── dim_sellers.csv
 │   ├── dim_date.csv
 │   └── dim_state.csv
-├── powerbi/             # Fichier .pbix du tableau de bord à quatre pages
-└── README.md            # Ce fichier
+├── olist_powerbi_model.xlsx         # Classeur multi-onglets (alternative à output_csv/ pour l'import Power BI)
+├── Rapport PowerBI/                 # Fichier .pbix du tableau de bord à quatre pages
+├── Images/                          # Visuels exportés du notebook et du dashboard
+│   ├── boxplot_categories.png
+│   ├── correlation_matrix.png
+│   ├── dashboard_synthese_final.png
+│   └── delai_vs_satisfaction.png
+├── Logo/                            # Ressources graphiques du dashboard
+├── projet2_da.env                   # Variables d'environnement (non versionné, voir Installation)
+└── README.md                        # Ce fichier
 ```
+
+> Le dossier `projet2_da/` (environnement virtuel Python) n'est pas versionné — voir [Installation](#installation) pour le recréer.
 
 ## Stack technique
 
@@ -141,7 +160,7 @@ pip install -r requirements.txt
 
 ### 4. Configurer les variables d'environnement
 
-Créer un fichier `projet2_da.env` à la racine du projet (ce fichier ne doit jamais être versionné) :
+Créer un fichier `projet2_da.env` à la racine du projet. **Ce fichier contient des identifiants et ne doit jamais être versionné** — vérifier qu'il figure bien dans `.gitignore` :
 
 ```env
 DATA_PATH=./data/
@@ -170,7 +189,7 @@ Fichiers requis :
 ### 2. Exécution du notebook
 
 ```bash
-jupyter notebook notebooks/olist_delivery_analysis.ipynb
+jupyter notebook olist_delivery_analysis.ipynb
 ```
 
 Exécuter les cellules dans l'ordre (**Run All**). Le notebook réalise successivement :
@@ -182,7 +201,7 @@ Exécuter les cellules dans l'ordre (**Run All**). Le notebook réalise successi
 
 ### 3. Ouverture du tableau de bord Power BI
 
-1. Ouvrir le fichier `powerbi/olist_dashboard.pbix` dans Power BI Desktop.
+1. Ouvrir le fichier `.pbix` situé dans le dossier `Rapport PowerBI/` avec Power BI Desktop.
 2. Si nécessaire, mettre à jour la source de données (**Accueil → Transformer les données → Paramètres de la source de données**) pour pointer vers les fichiers exportés à l'étape précédente.
 3. Actualiser le modèle (**Accueil → Actualiser**).
 
